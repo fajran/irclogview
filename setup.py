@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages
 
-packages = ['irclogview']
+packages = ['irclogview',
+            'irclogview.management',
+            'irclogview.management.commands']
 
 setup(
     name = 'irclogview',
