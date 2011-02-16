@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head>
+<title>{{ log.channel }} - {{ log.date }}</title>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css"/>
+</head><body>
+
+<h1>{{ log.channel }}</h1>
+<h2>{{ log.date }}</h2>
+
+<div class="irclogview">
+{% if log.content %}
+<ul class="log">
+{% for msg in log.content_dict %}
+<li class="{{ msg.type }}"><span class="time">{{ msg.time|date:"H:i" }}</span>
+{% if msg.type == 'msg' %}
+    <span class="name">&lt;<span style="color:{{ msg.name_color }}">{{ msg.name }}</span>&gt;</span>
+{% endif %}{% if msg.type == 'say' %}
+    <span class="name">* <span style="color:{{ msg.name_color }}">{{ msg.name }}</span></span>
+{% endif %}{% if msg.type == 'act' %}
+    <span class="name">*** <span style="color:{{ msg.name_color }}">{{ msg.name }}</span></span>
+{% endif %}
+    <span class="text">{{ msg.text }}</span>
+</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>No chat logged on this day.</p>
+{% endif %}
+</div>
+
+</body></html>
+
