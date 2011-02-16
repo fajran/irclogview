@@ -9,6 +9,7 @@ setup(
     description = 'IRC Log viewer for Django',
     author = 'Fajran Iman Rusadi',
     packages = packages,
-    install_requires = ['setuptools']
+    install_requires = ['setuptools', 'django-picklefield',
+                        'django-annoying']
 )
 
