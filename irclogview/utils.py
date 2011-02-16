@@ -88,3 +88,26 @@ def parse_log(channel, year, month, day, fname):
     log.content = content
     log.save()
 
+class RainbowColor(object):
+    def __init__(self):
+        self.hue = 0.0
+        self.colors = {}
+
+    def get_color(self, tag):
+        color = self.colors.get(tag, None)
+        if color is None:
+            r, g, b = colorsys.hsv_to_rgb(self.hue, 1., 1.)
+            color = '#%s' % self.to_hex(r, g, b)
+            self.colors[tag] = color
+
+            self.hue += 0.031
+            while self.hue > 1.0:
+                self.hue -= 1.0
+
+        return color
+
+    def to_hex(self, r, g, b):
+        r, g, b = map(lambda x: int(x * 255), [r,g,b])
+        res = '000000%s' % hex((r<<16)|(g<<8)|b)[2:]
+        return res[-6:]
+
