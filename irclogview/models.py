@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 from picklefield.fields import PickledObjectField
 
@@ -8,8 +9,14 @@ class Channel(models.Model):
     name = models.SlugField(max_length=50, unique=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['name']
+
     def __unicode__(self):
         return u'#%s' % self.name
+
+    def get_absolute_url(self):
+        return reverse('irclogview_channel', args=[self.name])
 
 class Log(models.Model):
     channel = models.ForeignKey(Channel)
