@@ -100,7 +100,7 @@ class RainbowColor(object):
             color = '#%s' % self.to_hex(r, g, b)
             self.colors[tag] = color
 
-            self.hue += 0.031
+            self.hue += 0.641
             while self.hue > 1.0:
                 self.hue -= 1.0
 
