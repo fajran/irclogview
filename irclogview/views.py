@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 
 from .models import Channel, Log
@@ -16,7 +16,14 @@ def index(request):
 
 def channel_index(request, name):
     channel = get_object_or_404(Channel, name=name)
-    return HttpResponse('channel: %s' % name)
+    logs = Log.objects.filter(channel=channel)
+
+    if len(logs) > 0:
+        log = logs[0]
+        return HttpResponseRedirect(log.get_absolute_url())
+
+    context = {'channel': channel}
+    return render_to_response('irclogview/empty.html', context)
 
 def show_log(request, name, year, month, day):
     channel = get_object_or_404(Channel, name=name)

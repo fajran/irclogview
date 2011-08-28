@@ -26,7 +26,16 @@ class Log(models.Model):
     content = PickledObjectField()
 
     class Meta:
+        ordering = ['-date']
         unique_together = ('channel', 'date')
+
+    def get_absolute_url(self):
+        date = self.date
+        return reverse('irclogview_show',
+                       args=[self.channel.name,
+                             '%04d' % date.year,
+                             '%02d' % date.month,
+                             '%02d' % date.day])
 
     def content_dict(self):
         colors = utils.RainbowColor()
