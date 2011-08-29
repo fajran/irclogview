@@ -6,6 +6,20 @@ function add_line_links() {
         var a = $('<a href="#'+id+'"/>');
         a.text(time);
         el.html(a);
+
+        a.click((function(line) {
+            return function() {
+                var el = $(line);
+                if (el.hasClass('active')) {
+                    el.removeClass('active');
+                }
+                else {
+                    $('.log > li').removeClass('active');
+                    el.addClass('active');
+                }
+                return false;
+            }
+        })(this));
     });
 }
 

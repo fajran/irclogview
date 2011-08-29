@@ -9,8 +9,13 @@
     padding-left: 170px;
 }
 
+.irclogview li.active,
+.irclogview li.active * {
+    background: #FF8;
+}
 .irclogview li span.time {
-    margin-left: -170px;
+    margin-left: -175px;
+    padding: 0 10px 0 5px;
     float: left;
 }
 .irclogview li span.time a {
