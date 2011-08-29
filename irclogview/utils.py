@@ -22,6 +22,8 @@ re_fname = re.compile(r'#(?P<name>[\w_.-]+).(?P<year>\d{4})(?P<month>\d{2})(?P<d
 def update_log(channel):
     logdir = os.path.join(settings.IRCLOGVIEW_LOGDIR, channel.name)
     files = glob(os.path.join(logdir, '*.log'))
+
+    updated = False
     for fname in files:
         m = re_fname.search(fname)
         if not m:
@@ -37,7 +39,10 @@ def update_log(channel):
         if name != channel.name:
             continue
 
-        parse_log(channel, year, month, day, fname)
+        updated |= parse_log(channel, year, month, day, fname)
+
+    if updated:
+        channel.save()
 
 # TODO make log pattern configurable
 re_line = re.compile(r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2}) ' \
@@ -59,7 +64,7 @@ def parse_log(channel, year, month, day, fname):
     stat = os.stat(fname)
     mtime = datetime.fromtimestamp(stat.st_mtime)
     if log is not None and log.mtime is not None and log.mtime >= mtime:
-        return
+        return False
 
     content = []
     for line in open(fname):
@@ -87,6 +92,8 @@ def parse_log(channel, year, month, day, fname):
     log.mtime = mtime
     log.content = content
     log.save()
+
+    return True
 
 class RainbowColor(object):
     def __init__(self):
