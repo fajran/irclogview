@@ -19,7 +19,7 @@
 {% endif %}{% if msg.type == 'act' %}
     <span class="name">*** <span style="color:{{ msg.name_color }}">{{ msg.name }}</span></span>
 {% endif %}
-    <span class="text">{{ msg.text }}</span>
+    <span class="text">{{ msg.text|urlize }}</span>
 </li>
 {% endfor %}
 </ul>
