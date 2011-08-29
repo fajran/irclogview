@@ -41,6 +41,8 @@ class Log(models.Model):
         colors = utils.RainbowColor()
         for data in self.content:
             item = dict(zip(['time', 'type', 'name', 'text'], data))
-            item['name_color'] = colors.get_color(item['name'])
+            item['name_color'] = item['type'] == 'act' \
+                                 and 'inherit' \
+                                 or colors.get_color(item['name'])
             yield item
 
