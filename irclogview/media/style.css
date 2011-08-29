@@ -1,8 +1,35 @@
 @import url(http://fonts.googleapis.com/css?family=Inconsolata);
+@import url(http://fonts.googleapis.com/css?family=Nunito);
 
+html {
+    background: #eee;
+}
+
+body {
+    background: white;
+    min-width: 700px;
+    width: 900px;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    font-family: Nunito, "Trebuchet MS", sans-serif;
+    font-size: 20pt;
+    margin-bottom: 20px;
+}
+
+.irclogview h2 {
+    font-family: Nunito, "Trebuchet MS", sans-serif;
+    margin-bottom: 10px;
+    font-size: 11pt;
+    text-decoration: underline;
+}
 .irclogview ul.log {
     font-family: Inconsolata, monospace;
-    font-size: 11pt;
+    font-size: 10.5pt;
+    line-height: 14pt;
 }
 .irclogview ul {
     list-style: none;

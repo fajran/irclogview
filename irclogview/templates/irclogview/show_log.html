@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html><head>
-<title>{{ log.channel }} - {{ log.date }}</title>
+<title>{{ log.channel }} - {{ log.date|date:"D, j F Y" }}</title>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssreset/reset-min.css">
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css"/>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}/script.js"></script>
 </head><body>
+<div class="irclogview">
 
 <h1>{{ log.channel }}</h1>
-<h2>{{ log.date }}</h2>
+<h2>{{ log.date|date:"D, j F Y" }}</h2>
 
-<div class="irclogview">
 {% if log.content %}
 <ul class="log">
 {% for msg in log.content_dict %}
@@ -28,7 +29,7 @@
 {% else %}
 <p>No chat logged on this day.</p>
 {% endif %}
-</div>
 
+</div>
 </body></html>
 
