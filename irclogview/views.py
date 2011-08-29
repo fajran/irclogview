@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
 
 from .models import Channel, Log
 
@@ -12,7 +13,8 @@ def index(request):
         return HttpResponseRedirect(channel.get_absolute_url())
 
     context = {'channels': channels}
-    return render_to_response('irclogview/index.html', context)
+    return render_to_response('irclogview/index.html', context,
+                              context_instance=RequestContext(request))
 
 def channel_index(request, name):
     channel = get_object_or_404(Channel, name=name)
@@ -23,7 +25,8 @@ def channel_index(request, name):
         return HttpResponseRedirect(log.get_absolute_url())
 
     context = {'channel': channel}
-    return render_to_response('irclogview/empty.html', context)
+    return render_to_response('irclogview/empty.html', context,
+                              context_instance=RequestContext(request))
 
 def show_log(request, name, year, month, day):
     channel = get_object_or_404(Channel, name=name)
@@ -32,5 +35,6 @@ def show_log(request, name, year, month, day):
     log = get_object_or_404(Log, channel=channel, date=date)
 
     context = {'log': log}
-    return render_to_response('irclogview/show_log.html', context)
+    return render_to_response('irclogview/show_log.html', context,
+                              context_instance=RequestContext(request))
 
