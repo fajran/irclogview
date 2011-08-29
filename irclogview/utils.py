@@ -1,10 +1,58 @@
 import re
 import os
 import colorsys
+import shutil
 from glob import glob
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.conf import settings
+
+UPDATE_DELAY = timedelta(seconds=settings.IRCLOGVIEW_UPDATE_DELAY)
+
+class UpdateSemaphore(object):
+    def __init__(self, channel):
+        self.channel = channel
+        self.acquired = False
+        self.lock = os.path.join(settings.IRCLOGVIEW_LOCKDIR,
+                                 '%s.lock' % channel.name)
+
+    def __enter__(self):
+        self.acquired = False
+
+        last_update = self.channel.updated
+        if datetime.now() - last_update < UPDATE_DELAY:
+            return self
+
+        # Remove uncleaned lock
+        if os.path.exists(self.lock):
+            stat = os.stat(self.lock)
+            mtime = datetime.fromtimestamp(stat.st_mtime)
+            if datetime.now() - mtime > UPDATE_DELAY * 5:
+                try:
+                    shutil.rmtree(self.lock)
+                except OSError:
+                    pass
+
+        # Try to create lock
+        try:
+            os.makedirs(self.lock)
+            self.acquired = True
+        except OSError:
+            pass
+
+        return self
+
+    def __exit__(self, type, value, traceback):
+        if not self.acquired:
+            return
+
+        # Remove lock
+        try:
+            shutil.rmtree(self.lock)
+        except OSError:
+            pass
+
+update_semaphore = UpdateSemaphore
 
 def update_logs():
     from .models import Channel
@@ -12,9 +60,13 @@ def update_logs():
     channels = settings.IRCLOGVIEW_CHANNELS
     if not type(channels) in [list, set, tuple]:
         channels = [channels]
+
     for name in channels:
         channel, created = Channel.objects.get_or_create(name=name)
-        update_log(channel)
+
+        with update_semaphore(channel) as semaphore:
+            if semaphore.acquired:
+                update_log(channel)
 
 # TODO make the filename pattern configurable
 re_fname = re.compile(r'#(?P<name>[\w_.-]+).(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})\.log')
@@ -41,8 +93,7 @@ def update_log(channel):
 
         updated |= parse_log(channel, year, month, day, fname)
 
-    if updated:
-        channel.save()
+    channel.save()
 
 # TODO make log pattern configurable
 re_line = re.compile(r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2}) ' \

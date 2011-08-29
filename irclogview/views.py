@@ -5,7 +5,15 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 
 from .models import Channel, Log
+from .utils import update_logs
 
+def _update_logs(f):
+    def _func(request, *args, **kwargs):
+        update_logs()
+        return f(request, *args, **kwargs)
+    return _func
+
+@_update_logs
 def index(request):
     channels = Channel.objects.all()
     if len(channels) == 1:
@@ -16,6 +24,7 @@ def index(request):
     return render_to_response('irclogview/index.html', context,
                               context_instance=RequestContext(request))
 
+@_update_logs
 def channel_index(request, name):
     channel = get_object_or_404(Channel, name=name)
     logs = Log.objects.filter(channel=channel)
@@ -28,6 +37,7 @@ def channel_index(request, name):
     return render_to_response('irclogview/empty.html', context,
                               context_instance=RequestContext(request))
 
+@_update_logs
 def show_log(request, name, year, month, day):
     channel = get_object_or_404(Channel, name=name)
     date = datetime(int(year), int(month), int(day)).date()
