@@ -13,6 +13,13 @@
     margin-left: -170px;
     float: left;
 }
+.irclogview li span.time a {
+    text-decoration: none;
+    color: inherit;
+}
+.irclogview li span.time a:hover {
+    border-bottom: 1px solid #ccc;
+}
 .irclogview li span.name {
     min-width: 115px;
     padding-right: 10px;

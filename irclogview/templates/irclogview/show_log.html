@@ -2,6 +2,8 @@
 <html><head>
 <title>{{ log.channel }} - {{ log.date }}</title>
 <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css"/>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}/script.js"></script>
 </head><body>
 
 <h1>{{ log.channel }}</h1>
@@ -11,7 +13,7 @@
 {% if log.content %}
 <ul class="log">
 {% for msg in log.content_dict %}
-<li class="{{ msg.type }}"><span class="time">{{ msg.time|date:"H:i" }}</span>
+<li id="L{{ forloop.counter }}" class="{{ msg.type }}"><span class="time">{{ msg.time|date:"H:i" }}</span>
 {% if msg.type == 'msg' %}
     <span class="name">&lt;<span style="color:{{ msg.name_color }}">{{ msg.name }}</span>&gt;</span>
 {% endif %}{% if msg.type == 'say' %}
