@@ -99,15 +99,21 @@ h1 {
 
 .irclogview table.calendar td.today {
     font-weight: bold;
+    background: #ddd;
 }
 .irclogview table.calendar td.empty {
     color: #888;
+}
+.irclogview table.calendar td.prev,
+.irclogview table.calendar td.next {
+    color: #ccc;
 }
 .irclogview table.calendar td a {
     color: blue;
     text-decoration: none;
 }
-.irclogview table.calendar td.today a {
-    color: red;
+.irclogview table.calendar td.next a,
+.irclogview table.calendar td.prev a {
+    color: #faa;
 }
 

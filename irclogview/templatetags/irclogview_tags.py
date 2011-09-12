@@ -23,7 +23,7 @@ def build_calendar_table(year, month):
     cols = []
     while date <= last:
         while weekday < date.weekday():
-            cols.append(None)
+            cols.append(date - timedelta(days=(date.weekday() - weekday)))
             weekday += 1
         cols.append(date)
         date += one_day
@@ -35,8 +35,10 @@ def build_calendar_table(year, month):
             weekday = 0
 
     if weekday != 0 and weekday < 7:
+        add = 1
         while weekday < 7:
-            cols.append(None)
+            cols.append(last + timedelta(days=add))
+            add += 1
             weekday += 1
         rows.append(cols)
 
@@ -45,6 +47,12 @@ def build_calendar_table(year, month):
 @register.simple_tag
 def log_calendar(dates, today):
     table = build_calendar_table(today.year, today.month)
+    first = datetime.date(today.year, today.month, 1)
+    if today.month == 12:
+        last = datetime.date(today.year, 12, 31)
+    else:
+        last = datetime.date(today.year, today.month+1, 1) - timedelta(days=1)
+    print today, first, last
 
     def cell_builder(date, row, col):
         classes = ['col-%s' % col]
@@ -52,14 +60,17 @@ def log_calendar(dates, today):
             classes.append('empty')
         elif date == today:
             classes.append('today')
+        if date < first:
+            classes.append('prev')
+        elif date > last:
+            classes.append('next')
 
         content = '&nbsp;'
-        if date is not None:
-            if date in dates:
-                url = '../%04d%02d%02d/' % (today.year, today.month, date.day)
-                content = '<a href="%s">%s</a>' % (url, date.day)
-            else:
-                content = date.day
+        if date in dates:
+            url = '../%04d%02d%02d/' % (date.year, date.month, date.day)
+            content = '<a href="%s">%s</a>' % (url, date.day)
+        elif date is not None:
+            content = date.day
 
         return '<td class="%s">%s</td>' % (' '.join(classes), content)
 

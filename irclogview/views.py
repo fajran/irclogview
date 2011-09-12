@@ -48,11 +48,14 @@ def show_log(request, name, year, month, day):
     log = get_object_or_404(Log, channel=channel, date=date)
 
     # Month summary
-    first = datetime(year, month, 1)
-    if month == 12:
-        last = datetime(year, month, 31)
+    if month == 1:
+        first = datetime(year, 12, 1)
     else:
-        last = datetime(year, month+1, 1) - timedelta(days=1)
+        first = datetime(year, month-1, 1)
+    if month == 12:
+        last = datetime(year+1, 1, 31)
+    else:
+        last = datetime(year, month+2, 1) - timedelta(days=1)
     logs = Log.objects.filter(channel=channel,
                               date__gte=first.date(),
                               date__lte=last.date())
