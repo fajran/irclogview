@@ -11,7 +11,7 @@
 
 <h1>{{ log.channel }}</h1>
 <h2>{{ log.date|date:"D, j F Y" }}</h2>
-{% log_calendar calendar_data date %}
+{% log_calendar log_dates date %}
 
 {% if log.content %}
 <ul class="log">

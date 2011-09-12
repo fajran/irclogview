@@ -56,11 +56,11 @@ def show_log(request, name, year, month, day):
     logs = Log.objects.filter(channel=channel,
                               date__gte=first.date(),
                               date__lte=last.date())
-    calendar_data = dict([(item.date, item) for item in logs])
+    dates = set(logs.values_list('date', flat=True))
 
     context = {'log': log,
                'date': date,
-               'calendar_data': calendar_data}
+               'log_dates': dates}
     return render_to_response('irclogview/show_log.html', context,
                               context_instance=RequestContext(request))
 

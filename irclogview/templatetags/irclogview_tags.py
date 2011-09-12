@@ -43,19 +43,19 @@ def build_calendar_table(year, month):
     return rows
 
 @register.simple_tag
-def log_calendar(data, today):
+def log_calendar(dates, today):
     table = build_calendar_table(today.year, today.month)
 
     def cell_builder(date, row, col):
         classes = ['col-%s' % col]
-        if not date in data:
+        if not date in dates:
             classes.append('empty')
         elif date == today:
             classes.append('today')
 
         content = '&nbsp;'
         if date is not None:
-            if date in data:
+            if date in dates:
                 url = '../%04d%02d%02d/' % (today.year, today.month, date.day)
                 content = '<a href="%s">%s</a>' % (url, date.day)
             else:
