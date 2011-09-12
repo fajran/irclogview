@@ -73,3 +73,41 @@ h1 {
     font-weight: normal;
 }
 
+.irclogview table.calendar {
+    border: 1px solid #ccc;
+    font-family: Nunito, "Trebuchet MS", sans-serif;
+    font-size: 12px;
+    margin: -50px 0 20px 20px;
+    padding: 10px;
+    float: right;
+}
+.irclogview table.calendar th {
+    text-align: center;
+    border: 0px;
+    font-weight: bold;
+    font-size: 10px;
+    padding: 5px;
+}
+.irclogview table.calendar td {
+    text-align: right;
+    border: 0px;
+    padding: 2px 5px;
+}
+.irclogview table.calendar tr.title th {
+    text-align: center;
+}
+
+.irclogview table.calendar td.today {
+    font-weight: bold;
+}
+.irclogview table.calendar td.empty {
+    color: #888;
+}
+.irclogview table.calendar td a {
+    color: blue;
+    text-decoration: none;
+}
+.irclogview table.calendar td.today a {
+    color: red;
+}
+

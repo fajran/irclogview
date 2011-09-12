@@ -1,3 +1,4 @@
+{% load irclogview_tags %}
 <!DOCTYPE html>
 <html><head>
 <title>{{ log.channel }} - {{ log.date|date:"D, j F Y" }}</title>
@@ -10,6 +11,7 @@
 
 <h1>{{ log.channel }}</h1>
 <h2>{{ log.date|date:"D, j F Y" }}</h2>
+{% log_calendar calendar_data date %}
 
 {% if log.content %}
 <ul class="log">

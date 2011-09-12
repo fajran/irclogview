@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
@@ -39,12 +39,28 @@ def channel_index(request, name):
 
 @_update_logs
 def show_log(request, name, year, month, day):
-    channel = get_object_or_404(Channel, name=name)
-    date = datetime(int(year), int(month), int(day)).date()
+    year, month, day = map(int, [year, month, day])
 
+    channel = get_object_or_404(Channel, name=name)
+    date = datetime(year, month, day).date()
+
+    # The day's log
     log = get_object_or_404(Log, channel=channel, date=date)
 
-    context = {'log': log}
+    # Month summary
+    first = datetime(year, month, 1)
+    if month == 12:
+        last = datetime(year, month, 31)
+    else:
+        last = datetime(year, month+1, 1) - timedelta(days=1)
+    logs = Log.objects.filter(channel=channel,
+                              date__gte=first.date(),
+                              date__lte=last.date())
+    calendar_data = dict([(item.date, item) for item in logs])
+
+    context = {'log': log,
+               'date': date,
+               'calendar_data': calendar_data}
     return render_to_response('irclogview/show_log.html', context,
                               context_instance=RequestContext(request))
 
