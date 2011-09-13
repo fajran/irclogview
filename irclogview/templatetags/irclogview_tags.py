@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from django import template
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 register = template.Library()
 
@@ -74,14 +75,31 @@ def log_calendar(dates, today):
 
         return '<td class="%s">%s</td>' % (' '.join(classes), content)
 
+    # Previous and next months
+    if today.month == 1:
+        url_prev = '../%04d%02d01/' % (today.year-1, 12)
+    else:
+        url_prev = '../%04d%02d01/' % (today.year, today.month-1)
+
+    if today.month == 12:
+        url_next = '../%04d%02d01/' % (today.year+1, 1)
+    else:
+        url_next = '../%04d%02d01/' % (today.year, today.month+1)
+
     # Construct HTML
     title = today.strftime('%B %Y')
     day_names = [datetime.date(2011, 5, day+1).strftime('%A')[0]
                  for day in range(7)]
 
+    link_prev = '<a href="%s"><img src="%simages/resultset_previous.png"/></a>' % \
+                (url_prev, settings.MEDIA_URL)
+    link_next = '<a href="%s"><img src="%simages/resultset_next.png"/></a>' % \
+                (url_next, settings.MEDIA_URL)
+
     html = []
     html.append('<table class="calendar" border="1">')
-    html.append('<tr class="title"><th colspan="7">%s</th></tr>' % title)
+    html.append('<tr class="title"><th colspan="7">%s %s %s</th></tr>' % \
+                (link_prev, title, link_next))
     html.append('<tr>')
     for day in day_names:
         html.append('<th>%s</th>' % day)

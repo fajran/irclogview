@@ -96,6 +96,10 @@ h1 {
 .irclogview table.calendar tr.title th {
     text-align: center;
 }
+.irclogview table.calendar tr.title img {
+    vertical-align: text-bottom;
+    padding: 0 5px;
+}
 
 .irclogview table.calendar td.today {
     font-weight: bold;
