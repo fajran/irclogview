@@ -19,8 +19,8 @@ class Channel(models.Model):
         return reverse('irclogview_channel', args=[self.name])
 
 class Log(models.Model):
-    channel = models.ForeignKey(Channel)
-    date = models.DateField()
+    channel = models.ForeignKey(Channel, db_index=True)
+    date = models.DateField(db_index=True)
     mtime = models.DateTimeField()
     updated = models.DateTimeField(auto_now=True)
     content = PickledObjectField()
