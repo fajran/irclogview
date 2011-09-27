@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><head>
+<title>{{ channel }} - Bookmarks</title>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css"/>
+</head><body>
+
+<h1>{{ channel }} - Bookmarks</h1>
+
+{% if bookmarks %}
+
+<ul>
+{% for bookmark in bookmarks %}
+<li><a href="{{ bookmark.get_absolute_url }}">{{ bookmark.title }}</a> - {{ bookmark.log.date }}</li>
+{% endfor %}
+</ul>
+
+{% else %}
+
+<p>No bookmark created.</p>
+
+{% endif %}
+
+<p><img src="{{ MEDIA_URL }}images/script.png"/> <a href="../">View last IRC log of {{ channel }}</a></p>
+
+</body></html>
+

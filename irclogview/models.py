@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.core.urlresolvers import reverse
 
@@ -49,4 +51,19 @@ class Log(models.Model):
                                  and 'inherit' \
                                  or colors.get_color(item['name'])
             yield item
+
+class Bookmark(models.Model):
+    log = models.ForeignKey(Log)
+    path = models.SlugField(max_length=100)
+    title = models.CharField(max_length=250)
+    description = models.TextField(null=True, default=None, blank=True)
+
+    created = models.DateTimeField(default=datetime.now)
+
+    def __unicode__(self):
+        return u'#%s - %s' % (self.log.channel.name, self.title)
+
+    def get_absolute_url(self):
+        return reverse('irclogview_bookmark_show',
+                       args=[self.log.channel.name, self.path])
 

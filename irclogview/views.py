@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 
-from .models import Channel, Log
+from .models import Channel, Log, Bookmark
 from .utils import update_logs
 
 def _update_logs(f):
@@ -66,4 +66,22 @@ def show_log(request, name, year, month, day):
                'log_dates': dates}
     return render_to_response('irclogview/show_log.html', context,
                               context_instance=RequestContext(request))
+
+@_update_logs
+def bookmark_index(request, name):
+    channel = get_object_or_404(Channel, name=name)
+    bookmarks = Bookmark.objects.filter(log__channel=channel) \
+                                .select_related()
+
+    context = {'bookmarks': bookmarks,
+               'channel': channel}
+    return render_to_response('irclogview/bookmark_index.html', context,
+                              context_instance=RequestContext(request))
+
+@_update_logs
+def bookmark_show(request, name, path):
+    channel = get_object_or_404(Channel, name=name)
+    bookmark = get_object_or_404(Bookmark, log__channel=channel, path=path)
+
+    return HttpResponseRedirect(bookmark.log.get_absolute_url())
 
