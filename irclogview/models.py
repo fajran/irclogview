@@ -29,6 +29,10 @@ class Log(models.Model):
         ordering = ['-date']
         unique_together = ('channel', 'date')
 
+    def __unicode__(self):
+        return u'#%s - %s' % (self.channel.name,
+                              self.date.strftime('%Y-%m-%d'))
+
     def get_absolute_url(self):
         date = self.date
         return reverse('irclogview_show',
