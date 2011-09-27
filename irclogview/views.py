@@ -84,5 +84,8 @@ def bookmark_show(request, name, path):
     channel = get_object_or_404(Channel, name=name)
     bookmark = get_object_or_404(Bookmark, log__channel=channel, path=path)
 
-    return HttpResponseRedirect(bookmark.log.get_absolute_url())
+    url = bookmark.log.get_absolute_url()
+    if bookmark.line is not None:
+        url = '%s#L%s' % (url, bookmark.line)
+    return HttpResponseRedirect(url)
 

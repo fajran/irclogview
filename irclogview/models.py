@@ -57,6 +57,7 @@ class Bookmark(models.Model):
     path = models.SlugField(max_length=100)
     title = models.CharField(max_length=250)
     description = models.TextField(null=True, default=None, blank=True)
+    line = models.PositiveIntegerField(null=True, default=None, blank=True)
 
     created = models.DateTimeField(default=datetime.now)
 
