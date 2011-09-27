@@ -71,6 +71,7 @@ def show_log(request, name, year, month, day):
 def bookmark_index(request, name):
     channel = get_object_or_404(Channel, name=name)
     bookmarks = Bookmark.objects.filter(log__channel=channel) \
+                                .order_by('-log__date') \
                                 .select_related()
 
     context = {'bookmarks': bookmarks,

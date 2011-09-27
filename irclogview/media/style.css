@@ -1,5 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Inconsolata);
 @import url(http://fonts.googleapis.com/css?family=Nunito);
+@import url(http://fonts.googleapis.com/css?family=Didact+Gothic);
 
 html {
     background: #eee;
@@ -12,12 +13,23 @@ body {
     max-width: 90%;
     margin: 0 auto;
     padding: 20px;
+    font-family: 'Didact Gothic', "Trebuchet MS", sans-serif;
+    font-size: 12pt;
+    line-height: 18pt;
 }
 
 h1 {
     font-family: Nunito, "Trebuchet MS", sans-serif;
     font-size: 20pt;
     margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+}
+a:hover {
+    text-decoration: underline;
 }
 
 .irclogview h2 {
@@ -80,6 +92,7 @@ h1 {
     margin: -50px 0 20px 20px;
     padding: 10px;
     float: right;
+    line-height: 12pt;
 }
 .irclogview table.calendar th {
     text-align: center;
@@ -119,5 +132,27 @@ h1 {
 .irclogview table.calendar td.next a,
 .irclogview table.calendar td.prev a {
     color: #faa;
+}
+
+.jump {
+    margin: 15px 0;
+}
+.jump p img {
+    vertical-align: baseline;
+}
+
+.bookmark h2 {
+    font-family: 'Didact Gothic', "Trebuchet MS", sans-serif;
+    font-size: 16pt;
+    font-weight: normal;
+    margin: 10px 0 5px 0;
+}
+.bookmark ul {
+    margin: 0;
+    padding-left: 0px;
+    list-style: none;
+}
+.bookmark ul li span {
+    color: #444;
 }
 

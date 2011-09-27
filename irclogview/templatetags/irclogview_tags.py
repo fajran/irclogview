@@ -1,4 +1,5 @@
 import datetime
+from collections import defaultdict
 from datetime import timedelta
 
 from django import template
@@ -112,4 +113,29 @@ def log_calendar(dates, today):
     html.append('</table>')
 
     return ''.join(html)
-    
+
+@register.simple_tag
+def bookmark_list(bookmarks):
+    data = defaultdict(list)
+
+    for bookmark in bookmarks:
+        date = bookmark.log.date
+        month = datetime.date(date.year, date.month, 1)
+        data[month].append(bookmark)
+
+    months = sorted(data.keys())
+
+    html = []
+    for month in months:
+        items = data[month]
+
+        html.append('<h2>%s</h2>' % month.strftime('%B %Y'))
+        html.append('<ul>')
+        for item in items:
+            html.append('<li><span>%s</span> - <a href="%s">%s</a></li>' % \
+                        (item.log.date.day, item.get_absolute_url(),
+                         item.title))
+        html.append('</ul>')
+
+    return ''.join(html)
+

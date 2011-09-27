@@ -10,8 +10,11 @@
 <div class="irclogview">
 
 <h1>{{ log.channel }}</h1>
-<h2>{{ log.date|date:"D, j F Y" }}</h2>
+<div class="jump">
+<p><img src="{{ MEDIA_URL }}images/book.png"/> <a href="../+/">View bookmarks</a></p>
+</div>
 {% log_calendar log_dates date %}
+<h2>{{ log.date|date:"D, j F Y" }}</h2>
 
 {% if log.content %}
 <ul class="log">
