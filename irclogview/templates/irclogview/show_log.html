@@ -1,12 +1,19 @@
+{% extends "irclogview/base.html" %}
 {% load irclogview_tags %}
-<!DOCTYPE html>
-<html><head>
-<title>{{ log.channel }} - {{ log.date|date:"D, j F Y" }}</title>
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssreset/reset-min.css">
-<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css"/>
+
+{% block title %}{{ log.channel }} - {{ log.date|date:"D, j F Y" }}{% endblock %}
+
+{% block extrahead %}
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}/script.js"></script>
-</head><body>
+<script type="text/javascript">
+$(document).ready(function() {
+    add_line_links();
+});
+</script>
+{% endblock %}
+
+{% block page %}
 <div class="irclogview">
 
 <h1>{{ log.channel }}</h1>
@@ -36,5 +43,5 @@
 {% endif %}
 
 </div>
-</body></html>
+{% endblock %}
 

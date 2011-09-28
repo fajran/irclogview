@@ -23,7 +23,3 @@ function add_line_links() {
     });
 }
 
-$(document).ready(function() {
-    add_line_links();
-});
-

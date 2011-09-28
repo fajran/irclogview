@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html><head>
-<title>{{ channel }}</title>
-<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css"/>
-</head><body>
+{% extends "irclogview/base.html" %}
+
+{% block title %}{{ channel }}{% endblock %}
+
+{% block page %}
 
 <h1>{{ channel }}</h1>
 
 <p>No log recorded.</p>
 
-</body></html>
+{% endblock %}
 

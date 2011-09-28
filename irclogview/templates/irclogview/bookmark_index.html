@@ -1,9 +1,9 @@
+{% extends "irclogview/base.html" %}
 {% load irclogview_tags %}
-<!DOCTYPE html>
-<html><head>
-<title>{{ channel }} - Bookmarks</title>
-<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css"/>
-</head><body>
+
+{% block title %}{{ channel }} - Bookmarks{% endblock %}
+
+{% block page %}
 <div class="bookmark">
 
 <h1>{{ channel }} - Bookmarks</h1>
@@ -21,6 +21,5 @@
 
 {% endif %}
 
-</div>
-</body></html>
+{% endblock %}
 
