@@ -1,5 +1,5 @@
 {% load cache %}
 
-{% cache cache_timeout log_content %}
+{% cache cache_timeout log_content date %}
 {% include "irclogview/log_content.html" %}
 {% endcache %}
