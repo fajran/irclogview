@@ -25,7 +25,11 @@ $(document).ready(function() {
 
 {% if log.content %}
 
+{% if use_cache %}
+{% include "irclogview/log_content_cache.html" %}
+{% else %}
 {% include "irclogview/log_content.html" %}
+{% endif %}
 
 {% else %}
 <p>No chat logged on this day.</p>

@@ -72,6 +72,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
+CACHE_BACKEND = 'dummy://'
+
 TEMPLATE_DIRS = (
      os.path.join(PROJECT_PATH, 'templates'),
 )
@@ -88,6 +90,7 @@ INSTALLED_APPS = (
 
 ROOT_URLCONF = 'irclogview.urls'
 
+IRCLOGVIEW_CACHE_TIMEOUT = 3600 # 1 hour
 IRCLOGVIEW_LOGDIR = 'logs'
 IRCLOGVIEW_CHANNELS = (
 )

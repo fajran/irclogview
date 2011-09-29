@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
@@ -61,9 +62,14 @@ def show_log(request, name, year, month, day):
                               date__lte=last.date())
     dates = set(logs.values_list('date', flat=True))
 
+    # Never cache recently updated Log (less than 1 day)
+    use_cache = log.updated - datetime.now() < timedelta(seconds=86400)
+
     context = {'log': log,
                'date': date,
-               'log_dates': dates}
+               'log_dates': dates,
+               'cache_timeout': settings.IRCLOGVIEW_CACHE_TIMEOUT,
+               'use_cache': use_cache}
     return render_to_response('irclogview/show_log.html', context,
                               context_instance=RequestContext(request))
 
