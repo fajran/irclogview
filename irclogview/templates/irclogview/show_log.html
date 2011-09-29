@@ -24,20 +24,9 @@ $(document).ready(function() {
 <h2>{{ log.date|date:"D, j F Y" }}</h2>
 
 {% if log.content %}
-<ul class="log">
-{% for msg in log.content_dict %}
-<li id="L{{ forloop.counter }}" class="{{ msg.type }}"><span class="time">{{ msg.time|date:"H:i" }}</span>
-{% if msg.type == 'msg' %}
-    <span class="name">&lt;<span style="color:{{ msg.name_color }}">{{ msg.name }}</span>&gt;</span>
-{% endif %}{% if msg.type == 'say' %}
-    <span class="name">* <span style="color:{{ msg.name_color }}">{{ msg.name }}</span></span>
-{% endif %}{% if msg.type == 'act' %}
-    <span class="name">*** <span style="color:{{ msg.name_color }}">{{ msg.name }}</span></span>
-{% endif %}
-    <span class="text">{{ msg.text|urlize }}</span>
-</li>
-{% endfor %}
-</ul>
+
+{% include "irclogview/log_content.html" %}
+
 {% else %}
 <p>No chat logged on this day.</p>
 {% endif %}
