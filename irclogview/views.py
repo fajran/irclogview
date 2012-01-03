@@ -50,16 +50,16 @@ def show_log(request, name, year, month, day):
 
     # Month summary
     if month == 1:
-        first = datetime(year, 12, 1)
+        first = datetime(year-1, 12, 1)
     else:
         first = datetime(year, month-1, 1)
     if month == 12:
         last = datetime(year+1, 1, 31)
     else:
-        last = datetime(year, month+1, 1) - timedelta(days=1)
+        last = datetime(year, month+1, 1)
     logs = Log.objects.filter(channel=channel,
-                              date__gte=first.date(),
-                              date__lte=last.date())
+                              date__gt=first.date(),
+                              date__lt=last.date())
     dates = set(logs.values_list('date', flat=True))
 
     # Never cache recently updated Log (less than 1 day)
